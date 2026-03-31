@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+  <head>
+    <title>半自動化西西歐</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="./style.css">
+  </head>
+
+  <body style="width:300px;height:100px;">
+	<h1 style='display:flex;justify-content:center;'>半自動化西西歐</h1>
+	<div id='recure' style='display:flex;justify-content:center;height:60px;'>
+		<div style='height:30px;display:flex;align-items:center;flex-direction:column-reverse;justify-content: center;'>
+		  <span style='width:100px;display:flex;justify-content:center;'>藥1</span><button id="fight0" >一直按</button>
+		</div>
+		<div style='height:30px;display:flex;align-items:center;flex-direction:column-reverse;justify-content: center;'>
+		  <span style='width:100px;display:flex;justify-content:center;'>藥2</span><button id="fight1" >一直按</button>
+		</div>
+		<div style='height:30px;display:flex;align-items:center;flex-direction:column-reverse;justify-content: center;'>
+		  <span style='width:100px;display:flex;justify-content:center;'>藥3</span><button id="fight2" >一直按</button>
+		</div>
+	</div>
+	<div id='fight' style='display:flex;justify-content:center;'>
+		<div style='height:30px;display:flex;align-items:center;flex-direction:column-reverse;justify-content: center;'>
+		  <span style='width:100px;display:flex;justify-content:center;'>主武</span><button id="fight3" >一直按</button>
+		</div>
+		<div style='height:30px;display:flex;align-items:center;flex-direction:column-reverse;justify-content: center;'>
+		  <span style='width:100px;display:flex;justify-content:center;'>特武</span><button id="fight4" >一直按</button>
+		</div>
+		<div style='height:30px;display:flex;align-items:center;flex-direction:column-reverse;justify-content: center;'>
+		  <span style='width:100px;display:flex;justify-content:center;'>破武</span><button id="fight5" >一直按</button>
+		</div>
+	</div>
+	<br>
+	<div style='display: flex;justify-content: center;'>
+	  <span>血量低於</span>
+	  <input id='valuebar1' type='text' style='width:30px; display:flex; '>
+	  <span>%時自動回血</span>
+	</div>
+	<br>
+	<div style='display:flex;flex-direction: column;align-items: center;'>
+	  <input id='valuebar' type='range' min='0' max='100' step='0.1' style='width:150px;'>
+	</div>
+	<div style='height:30px;display:flex;justify-content: space-around;align-items:center;'>
+	  <span style='width:100px;'>自動ai</span><button id="ai">一直按</button>
+	</div>
+	<div style='height:30px;display:flex;justify-content: space-around;align-items:center;'>
+	  <span style='width:100px;'>自動挖礦</span><button id="mining" >一直按</button>
+	</div>
+	</body>
+  <script src="./popup.js"></script>
+</html>

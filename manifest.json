@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Click Button",
+  "version": "1.0",
+  "description": "A browser extension that clicks a button using chrome.debugger",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://cybercodeonline.com/*"], 
+      "js": ["content.js"]
+    }
+  ],
+  "permissions": [
+	"debugger",
+	"activeTab",
+	"storage"
+  ]
+}

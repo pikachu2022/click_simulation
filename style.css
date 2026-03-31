@@ -1,0 +1,9 @@
+span{
+	font: bold 24px sans-serif;
+}
+button {
+	width: 100px;
+	color: white;
+	background-color: black;
+	border-radius: 50px;
+}
