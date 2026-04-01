@@ -194,8 +194,8 @@ document.getElementById('valuebar1').addEventListener('focusout',function(){//ç®
 	c = parseFloat(c);
 	c = Math.max(c,0);
 	c = Math.min(c,100);
-	if(c==NaN) c=0;
-	console.log(c==NaN);
+	c = Number.isNaN(c) ? 0 : c;
+	console.log(isNaN(c));
 	document.getElementById('valuebar').value = c;
 	document.getElementById('valuebar1').value = c;
 	localStorage.setItem("b", document.getElementById('valuebar').value);

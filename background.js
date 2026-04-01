@@ -1,19 +1,54 @@
+const attachedTabs = new Set();
+
 const sendMouseEvent = async ({ tabId, type, x, y }) => {
   await chrome.debugger.sendCommand({ tabId }, 'Input.dispatchMouseEvent', {
     type,
     x,
     y,
     button: 'left',
-    clickCount: 1 // 这个参数很重要，表示点击次数，如果不设置或者为0，则无法触发点击事件
+    clickCount: 1
   });
 };
 
+// 確保只 attach 一次
+async function ensureAttached(tabId) {
+  if (attachedTabs.has(tabId)) return;
+
+  return new Promise((resolve) => {
+    chrome.debugger.attach({ tabId }, '1.2', () => {
+      if (chrome.runtime.lastError) {
+        // 可能已經 attach，忽略
+        console.log("attach error:", chrome.runtime.lastError.message);
+      } else {
+        attachedTabs.add(tabId);
+        console.log("attached to tab:", tabId);
+      }
+      resolve();
+    });
+  });
+}
+
+// 可選：tab 關閉時清掉紀錄
+chrome.tabs.onRemoved.addListener((tabId) => {
+  attachedTabs.delete(tabId);
+});
+
+// 核心事件
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  const tabId = sender.tab.id; // 这里我们用sender.tab.id来获取目标网页的ID，这是一种简单的方法，不需要额外的权限
+  const tabId = sender.tab.id;
   const { x, y } = request;
-  chrome.debugger.attach({ tabId }, '1.2', async () => {
+
+  (async () => {
+    await ensureAttached(tabId);
+
     await sendMouseEvent({ tabId, type: 'mousePressed', x, y });
     await sendMouseEvent({ tabId, type: 'mouseReleased', x, y });
-    await chrome.debugger.detach({ tabId });
-  });
+  })();
+
+  return true;
+});
+
+chrome.debugger.onDetach.addListener((source, reason) => {
+  attachedTabs.delete(source.tabId);
+  console.log("detached:", reason);
 });

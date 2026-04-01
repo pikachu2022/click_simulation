@@ -1,30 +1,42 @@
+function clickElement(el) {
+  if (!el) return;
+
+  const rect = el.getBoundingClientRect();
+
+  const x = rect.left + rect.width / 2 + (Math.random() * 4 - 2);
+  const y = rect.top + rect.height / 2 + (Math.random() * 4 - 2);
+
+  setTimeout(() => {
+    chrome.runtime.sendMessage({ x, y });
+  }, Math.random() * 100);
+}
 //紅綠燈
 var k3 = function(){
 	var kk3 = setInterval(function(){
 		if(document.getElementsByClassName("h-8 w-full next-color-box text-black-dark display-font justify-center items-center font-bold text-sm uppercase relative")[0] !== undefined){
 			if(document.getElementsByClassName("h-8 w-full next-color-box text-black-dark display-font justify-center items-center font-bold text-sm uppercase relative")[0].getElementsByTagName('span')[0].textContent === '!'){
 				//document.getElementsByClassName("flex-row w-full mb-16 justify-between opacity-90")[0].children[2].style.display = 'block';
-				const rect = document.getElementsByClassName("flex-row w-full mb-16 justify-between opacity-90")[0].children[2].getBoundingClientRect();
-				const x = rect.left + rect.width / 2;
-				const y = rect.top + rect.height / 2;
-				chrome.runtime.sendMessage({ x, y });
+				//const rect = document.getElementsByClassName("flex-row w-full mb-16 justify-between opacity-90")[0].children[2].getBoundingClientRect();
+				clickElement(
+				  document.getElementsByClassName("flex-row w-full mb-16 justify-between opacity-90")[0].children[2]
+				);
 				//document.getElementsByClassName("flex-row w-full mb-16 justify-between opacity-90")[0].children[1].style.display = 'none';
 				//document.getElementsByClassName("flex-row w-full mb-16 justify-between opacity-90")[0].children[0].style.display = 'none';
 			}
 			else if(document.getElementsByClassName("h-8 w-full next-color-box text-black-dark display-font justify-center items-center font-bold text-sm uppercase relative")[0].getElementsByTagName('span')[0].textContent === '@'){		
-				const rect = document.getElementsByClassName("flex-row w-full mb-16 justify-between opacity-90")[0].children[1].getBoundingClientRect();
-				const x = rect.left + rect.width / 2;
-				const y = rect.top + rect.height / 2;
-				chrome.runtime.sendMessage({ x, y });
+				//const rect = document.getElementsByClassName("flex-row w-full mb-16 justify-between opacity-90")[0].children[1].getBoundingClientRect();
+				clickElement(
+				  document.getElementsByClassName("flex-row w-full mb-16 justify-between opacity-90")[0].children[1]
+				);
 				//document.getElementsByClassName("flex-row w-full mb-16 justify-between opacity-90")[0].children[1].style.display = 'block';
 				//document.getElementsByClassName("flex-row w-full mb-16 justify-between opacity-90")[0].children[0].style.display = 'none';
 				//document.getElementsByClassName("flex-row w-full mb-16 justify-between opacity-90")[0].children[2].style.display = 'none';
 			}
 			else{
-				const rect = document.getElementsByClassName("flex-row w-full mb-16 justify-between opacity-90")[0].children[0].getBoundingClientRect();
-				const x = rect.left + rect.width / 2;
-				const y = rect.top + rect.height / 2;
-				chrome.runtime.sendMessage({ x, y });
+				//const rect = document.getElementsByClassName("flex-row w-full mb-16 justify-between opacity-90")[0].children[0].getBoundingClientRect();
+				clickElement(
+				  document.getElementsByClassName("flex-row w-full mb-16 justify-between opacity-90")[0].children[0]
+				);
 				//document.getElementsByClassName("flex-row w-full mb-16 justify-between opacity-90")[0].children[0].style.display = 'block';
 				//document.getElementsByClassName("flex-row w-full mb-16 justify-between opacity-90")[0].children[2].style.display = 'none';
 				//document.getElementsByClassName("flex-row w-full mb-16 justify-between opacity-90")[0].children[1].style.display = 'none';
@@ -34,7 +46,7 @@ var k3 = function(){
 			clearInterval(kk3);
 			k1();
 		}
-	}, 1);
+	}, 20);
 }
 //神經電路覆寫 連連看
 var k4 = function(){
@@ -43,10 +55,12 @@ var k4 = function(){
 	let aa = new Array(p.length);
 	for(let i = 0; i < p.length; i+=1){
 		setTimeout(function(){
-			const rect = p[i].getBoundingClientRect();
+			/*const rect = p[i].getBoundingClientRect();
 			const x = rect.left + rect.width / 2;
-			const y = rect.top + rect.height / 2;
-			chrome.runtime.sendMessage({ x, y });
+			const y = rect.top + rect.height / 2;*/
+			clickElement(
+				p[i]
+			);
 			a += p[i].textContent[0];
 		}, 100*i);
 	}
@@ -55,16 +69,12 @@ var k4 = function(){
 			aa[a[i]-1] = i;
 		}
 		const rect = p[0].getBoundingClientRect();
-		const x = rect.left + rect.width / 2;
-		const y = rect.top + rect.height / 2;
-		chrome.runtime.sendMessage({ x, y });
+		clickElement(p[0]);
 		//alert(aa);
 		for(let i = 0; i < p.length; i+=1){
 			setTimeout(function(){
-				const rect = p[parseInt(aa[i])].getBoundingClientRect();
-				const x = rect.left + rect.width / 2;
-				const y = rect.top + rect.height / 2;
-				chrome.runtime.sendMessage({ x, y });
+				//const rect = p[parseInt(aa[i])].getBoundingClientRect();
+				clickElement(p[parseInt(aa[i])]);
 			}, 500+i*100);
 		}
 	}, 500);
@@ -77,10 +87,8 @@ var k5 = function(){
 	var kk5 = setInterval(function(){
 		if(document.getElementsByClassName("text-sm opacity-80 font-mono tracking-wide")[0] !== undefined && /攔截有效的數據封包/.test(document.getElementsByClassName("text-sm opacity-80 font-mono tracking-wide")[0].textContent)){
 			if(document.getElementsByClassName("absolute left-1/2 cursor-pointer -translate-x-1/2 h-16 w-16 pointer-events-auto border-2 flex items-center justify-center text-2xl backdrop-blur-sm bg-black border-secondary shadow-[0_0_20px_rgba(0,255,255,0.15),inset_0_0_10px_rgba(0,255,255,0.1)]")[0] != undefined){
-				const rect = document.getElementsByClassName("absolute left-1/2 cursor-pointer -translate-x-1/2 h-16 w-16 pointer-events-auto border-2 flex items-center justify-center text-2xl backdrop-blur-sm bg-black border-secondary shadow-[0_0_20px_rgba(0,255,255,0.15),inset_0_0_10px_rgba(0,255,255,0.1)]")[0].getBoundingClientRect();
-				const x = rect.left + rect.width / 2;
-				const y = rect.top + rect.height / 2;
-				chrome.runtime.sendMessage({ x, y });
+				//const rect = document.getElementsByClassName("absolute left-1/2 cursor-pointer -translate-x-1/2 h-16 w-16 pointer-events-auto border-2 flex items-center justify-center text-2xl backdrop-blur-sm bg-black border-secondary shadow-[0_0_20px_rgba(0,255,255,0.15),inset_0_0_10px_rgba(0,255,255,0.1)]")[0].getBoundingClientRect();
+				clickElement(document.getElementsByClassName("absolute left-1/2 cursor-pointer -translate-x-1/2 h-16 w-16 pointer-events-auto border-2 flex items-center justify-center text-2xl backdrop-blur-sm bg-black border-secondary shadow-[0_0_20px_rgba(0,255,255,0.15),inset_0_0_10px_rgba(0,255,255,0.1)]")[0]);
 			}
 		}
 		else{
@@ -99,10 +107,8 @@ var k6 = function(){
 			let b = document.getElementsByClassName("cursor-pointer text-3xl font-mono relative p-4 transition-colors duration-200 hover:bg-emerald-900/50 text-emerald-800");
 			for(var i = 0; i < b.length; i+=1){
 				if(a==b[i].textContent){
-					const rect = b[i].getBoundingClientRect();
-					const x = rect.left + rect.width / 2;
-					const y = rect.top + rect.height / 2;
-					chrome.runtime.sendMessage({ x, y });
+					//const rect = b[i].getBoundingClientRect();
+					clickElement(b[i]);
 					break;
 				}
 			}
@@ -111,7 +117,7 @@ var k6 = function(){
 			clearInterval(kk6);
 			k1();
 		}
-	}, 1);
+	}, 20);
 }
 //記憶庫覆寫 九宮格
 var k7 = function(){
@@ -122,10 +128,8 @@ var k7 = function(){
 			let b = document.getElementsByClassName("cursor-pointer text-3xl font-mono relative p-4 transition-colors duration-200 hover:bg-emerald-900/50 text-emerald-800");
 			for(var i = 0; i < 9; i+=1){
 				if(a[i]=='1' && '0'==document.getElementsByClassName("grid grid-cols-3 gap-2 w-full aspect-square mb-4 p-4 rounded-lg bg-black/20 backdrop-blur-sm border border-primary/20")[0].children[i].textContent){
-					const rect = document.getElementsByClassName("grid grid-cols-3 gap-2 w-full aspect-square mb-4 p-4 rounded-lg bg-black/20 backdrop-blur-sm border border-primary/20")[0].children[i].getBoundingClientRect();
-					const x = rect.left + rect.width / 2;
-					const y = rect.top + rect.height / 2;
-					chrome.runtime.sendMessage({ x, y });
+					//const rect = document.getElementsByClassName("grid grid-cols-3 gap-2 w-full aspect-square mb-4 p-4 rounded-lg bg-black/20 backdrop-blur-sm border border-primary/20")[0].children[i].getBoundingClientRect();
+					clickElement(document.getElementsByClassName("grid grid-cols-3 gap-2 w-full aspect-square mb-4 p-4 rounded-lg bg-black/20 backdrop-blur-sm border border-primary/20")[0].children[i]);
 					break;
 				}
 			}
@@ -134,7 +138,7 @@ var k7 = function(){
 			clearInterval(kk7);
 			k1();
 		}
-	}, 1);
+	}, 20);
 }
 //打水母
 setInterval(function(){
@@ -142,15 +146,13 @@ setInterval(function(){
 		setTimeout(function(){
 			var hp = document.getElementsByClassName("absolute items-center justify-center flex-1 w-full h-full text-black-dark ");
 			hp = hp[hp.length - 1].textContent;
-			var c = document.getElementsByClassName("relative ion-activatable cursor-pointer clickable flex-1 ");
+			var c = document.getElementsByClassName("mobile-clean-card w-full transform origin-center transition-transform  MobileCleanCard_card__6YGZv p-2 relative");
 			if(hp.split(' / ')[1].split(',').join('') * person.recure * 0.01  >  hp.split(' / ')[0].split(',').join('')){
 				for(var i = 0; i < 3; i++){
 					if(person.fight[i]=='1'){
 						if(!/快捷欄/.test(c[i].textContent)){
-							const rect = c[i].getBoundingClientRect();
-							const x = rect.left + rect.width / 2;
-							const y = rect.top + rect.height / 2;
-							chrome.runtime.sendMessage({ x, y });
+							//const rect = c[i].getBoundingClientRect();
+							clickElement(c[i]);
 						}
 						break;
 					}
@@ -159,10 +161,8 @@ setInterval(function(){
 			else{
 				for(var i = 3; i < 6; i++){
 					if(person.fight[i]=='1'){
-						const rect = c[i].getBoundingClientRect();
-						const x = rect.left + rect.width / 2;
-						const y = rect.top + rect.height / 2;
-						chrome.runtime.sendMessage({ x, y });
+						//const rect = c[i].getBoundingClientRect();
+						clickElement(c[i]);
 						break;
 					}
 				}
@@ -176,10 +176,8 @@ setInterval(function(){
     if(k > 0 && document.getElementsByClassName("mobile-clean-card w-full transform origin-center transition-transform active:scale-[0.98] MobileCleanCard_card__6YGZv mb-2 p-2 pl-4 pr-4 flex-row items-center cursor-pointer mt-8 ")[0]!==undefined && document.getElementsByClassName("mobile-clean-card w-full transform origin-center transition-transform active:scale-[0.98] MobileCleanCard_card__6YGZv mb-2 p-2 pl-4 pr-4 flex-row items-center cursor-pointer mt-8 ")[0].textContent === '拿取全部物品'){
 		k -= 1;
 		setTimeout(function(){
-			const rect = document.getElementsByClassName("loading-background-front absolute top-0 left-0 w-full h-full bg-center bg-cover z-[-1] pointer-events-none")[0].getBoundingClientRect();
-			const x = rect.left + rect.width / 2;
-			const y = rect.top + rect.height / 2;
-			chrome.runtime.sendMessage({ x, y });
+			//const rect = document.getElementsByClassName("loading-background-front absolute top-0 left-0 w-full h-full bg-center bg-cover z-[-1] pointer-events-none")[0].getBoundingClientRect();
+			clickElement(document.getElementsByClassName("loading-background-front absolute top-0 left-0 w-full h-full bg-center bg-cover z-[-1] pointer-events-none")[0]);
 		},900+Math.floor((Math.random()*200)+1));
 		if(document.getElementsByClassName("mobile-clean-card w-full transform origin-center transition-transform active:scale-[0.98] MobileCleanCard_card__6YGZv mb-2 p-2 pl-4 pr-4 flex-row items-center cursor-pointer mt-8 ")[0]!==undefined)
 			k=0;
@@ -192,10 +190,8 @@ setInterval(function(){
 setInterval(function(){
 	var t=document.getElementsByClassName("relative ion-activatable cursor-pointer mt-2 flex flex-row items-center border border-primary-dark flex-grow-0 pl-4 pr-4 p-1")[0];
 	if(t!==undefined&&/手動刷新/.test(t.textContent)){
-		const rect = t.getBoundingClientRect();
-		const x = rect.left + rect.width / 2;
-		const y = rect.top + rect.height / 2;
-		chrome.runtime.sendMessage({ x, y });
+		//const rect = t.getBoundingClientRect();
+		clickElement(t);
 	}
 	var t1=document.getElementsByClassName("text-white justify-center items-center text-center p-6");
 	if(t1[0]!=undefined&&/Uh oh, My bad.. Something went wrong/.test(t1[0].textContent)){
@@ -234,19 +230,15 @@ setInterval(function(){
 					var img=document.getElementsByClassName("display-font font-bold text-left w-full mt-1 bg-primary text-black-darker text-sm uppercase pl-2 pr-2")[0];
 					if(img==undefined||!(/將所有進度圖示拖入框框內以啟動任務。/.test(img.textContent)))
 					setTimeout(function(){
-						const rect = document.getElementsByClassName("relative ion-activatable cursor-pointer clickable mb-2")[0].getBoundingClientRect();
-						const x = rect.left + rect.width / 2;
-						const y = rect.top + rect.height / 2;
-						chrome.runtime.sendMessage({ x, y });
+						//const rect = document.getElementsByClassName("relative ion-activatable cursor-pointer clickable mb-2")[0].getBoundingClientRect();
+						clickElement(document.getElementsByClassName("relative ion-activatable cursor-pointer clickable mb-2")[0]);
 						setTimeout(function(){
 							location.reload();
 						},10*60*1e+3);
 						setTimeout(function(){
 							var p=document.getElementsByClassName("mobile-clean-card w-full transform origin-center transition-transform active:scale-[0.98] MobileCleanCard_card__6YGZv mb-2 p-2 pl-4 pr-4 flex-row items-center cursor-pointer ");
-							const rect = p[p.length-1].getBoundingClientRect();
-							const x = rect.left + rect.width / 2;
-							const y = rect.top + rect.height / 2;
-							chrome.runtime.sendMessage({ x, y });
+							//const rect = p[p.length-1].getBoundingClientRect();
+							clickElement(p[p.length-1]);
 						},400+Math.floor((Math.random()*200)+1));
 					},400+Math.floor((Math.random()*200)+1));
 				}
@@ -266,18 +258,14 @@ setInterval(function(){
 				var p = document.getElementsByClassName("mobile-clean-card w-full transform origin-center transition-transform active:scale-[0.98] MobileCleanCard_card__6YGZv mb-2 p-2 pl-4 pr-4 flex-row items-center cursor-pointer");
 				if(p.length!==0 && /開始/.test(p[p.length-1].textContent) && document.getElementsByClassName("relative ion-activatable cursor-pointer clickable mb-2")[4]!==undefined){
 					//alert(p[p.length-1].getBoundingClientRect().top+"&"+p[p.length-1].getBoundingClientRect().height);
-					const rect = p[p.length-1].getBoundingClientRect();
-					const x = rect.left + rect.width / 2;
-					const y = rect.top + rect.height / 2;
-					chrome.runtime.sendMessage({ x, y });
+					//const rect = p[p.length-1].getBoundingClientRect();
+					clickElement(p[p.length-1]);
 					err4+=1;
 				}
 				else if(document.getElementsByClassName("relative ion-activatable cursor-pointer clickable mb-2")[4]!==undefined){
 					err4 = 0;
-					const rect = document.getElementsByClassName("relative ion-activatable cursor-pointer clickable mb-2")[4].getBoundingClientRect();
-					const x = rect.left + rect.width / 2;
-					const y = rect.top + 10;
-					chrome.runtime.sendMessage({ x, y });
+					//const rect = document.getElementsByClassName("relative ion-activatable cursor-pointer clickable mb-2")[4].getBoundingClientRect();
+					clickElement(document.getElementsByClassName("relative ion-activatable cursor-pointer clickable mb-2")[4]);
 				}
 			}
 }, 1300);
