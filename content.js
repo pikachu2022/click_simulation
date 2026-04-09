@@ -225,15 +225,19 @@ var k1 = function(){
 k1();
 //輸入數值
 var input_value = function(x){
-	if(document.getElementsByClassName("z-10 w-16 pl-2 text-sm bg-highlight-bright")[0]!=null && document.getElementsByClassName("z-10 w-16 pl-2 text-sm bg-highlight-bright")[0].value != parseInt(x)){
-		//clickElement(document.getElementsByClassName("z-10 w-16 pl-2 text-sm bg-highlight-bright")[0]);
-		//document.getElementsByClassName("z-10 w-16 pl-2 text-sm bg-highlight-bright")[0].value = parseInt(x);
-		//clickElement(document.getElementsByClassName("z-10 w-16 pl-2 text-sm bg-highlight-bright")[0]);
-		setTimeout(function(){
-			document.getElementsByClassName("z-10 w-16 pl-2 text-sm bg-highlight-bright")[0].value = parseInt(x);
-			clickElement(document.getElementsByClassName("z-10 w-16 pl-2 text-sm bg-highlight-bright")[0]);
-		},1000);
-	}
+	new Promise((resolve, reject) => {
+			//clickElement(document.getElementsByClassName("z-10 w-16 pl-2 text-sm bg-highlight-bright")[0]);
+			//document.getElementsByClassName("z-10 w-16 pl-2 text-sm bg-highlight-bright")[0].value = parseInt(x);
+			//clickElement(document.getElementsByClassName("z-10 w-16 pl-2 text-sm bg-highlight-bright")[0]);
+			setTimeout(function(){
+				if(document.getElementsByClassName("z-10 w-16 pl-2 text-sm bg-highlight-bright")[0]!=null && document.getElementsByClassName("z-10 w-16 pl-2 text-sm bg-highlight-bright")[0].value != parseInt(x)){
+					document.getElementsByClassName("z-10 w-16 pl-2 text-sm bg-highlight-bright")[0].value = parseInt(x);
+					clickElement(document.getElementsByClassName("z-10 w-16 pl-2 text-sm bg-highlight-bright")[0]);
+					resolve("Success!");
+				}
+			},1000);
+	});
+	if(false) reject("failure reason");
 }
 //掛機
 setInterval(function(){
@@ -262,12 +266,46 @@ setInterval(function(){
 					var img=document.getElementsByClassName("display-font font-bold text-left w-full mt-1 bg-primary text-black-darker text-sm uppercase pl-2 pr-2")[0];
 					if(img==undefined||!(/將所有進度圖示拖入框框內以啟動任務。/.test(img.textContent)))
 					if(window.location.href=='https://cybercodeonline.com/tabs/map')
-					setTimeout(function(){
+					(async function(){
+						await new Promise((resolve, reject) => {
+							setTimeout(function(){
+								clickElement(document.getElementsByClassName("relative ion-activatable cursor-pointer clickable mb-2")[1]);
+								resolve("Success!");
+							},100+Math.floor((Math.random()*200)+1));
+							if(false) {
+								reject("failure reason");
+							}
+						});
+						await input_value(person.scavenge_value);
+						await new Promise((resolve, reject) => {
+							setTimeout(function(){
+								var p=document.getElementsByClassName("mobile-clean-card w-full transform origin-center transition-transform active:scale-[0.98] MobileCleanCard_card__6YGZv mb-2 p-2 pl-4 pr-4 flex-row items-center cursor-pointer ");
+								clickElement(p[p.length-1]);
+								resolve("Success!");
+							},2600+Math.floor((Math.random()*200)+1));
+							if(false) {
+								reject("failure reason");
+							}
+						});
+						/*await new Promise((resolve, reject) => {
+							var t = setInterval(function(){
+								console.log(count++);
+								if(count > 3){
+									clearInterval(t);
+									resolve("Success!");
+								}
+							},100+Math.floor((Math.random()*200)+1));
+							if(false) {
+								reject("failure reason"); // 拒絕，回傳錯誤提示
+							}
+						});*///async/await使用方法
+					})();	
+					/*setTimeout(function(){
 						//const rect = document.getElementsByClassName("relative ion-activatable cursor-pointer clickable mb-2")[0].getBoundingClientRect();
 						clickElement(document.getElementsByClassName("relative ion-activatable cursor-pointer clickable mb-2")[1]);
-						/*setTimeout(function(){
+						setTimeout(function(){
 							location.reload();
-						},10*60*1e+3);*/
+						},10*60*1e+3);
 						setTimeout(function(){
 							var p=document.getElementsByClassName("mobile-clean-card w-full transform origin-center transition-transform active:scale-[0.98] MobileCleanCard_card__6YGZv mb-2 p-2 pl-4 pr-4 flex-row items-center cursor-pointer ");
 							//const rect = p[p.length-1].getBoundingClientRect();
@@ -277,7 +315,7 @@ setInterval(function(){
 								//clickElement(document.getElementsByClassName("z-10 w-16 pl-2 text-sm bg-highlight-bright")[0]);
 							},2000+Math.floor((Math.random()*200)+1));//確認時間>輸入數值
 						},500+Math.floor((Math.random()*200)+1));//輸入數值
-					},100+Math.floor((Math.random()*200)+1));//跳轉頁面
+					},100+Math.floor((Math.random()*200)+1));//跳轉頁面*/
 				}
 			}
 			//hash
