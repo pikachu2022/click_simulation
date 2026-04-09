@@ -172,7 +172,7 @@ setInterval(function(){
 }, 3000);
 var k = 5;
 //撿東西
-setInterval(function(){
+/*setInterval(function(){
     if(k > 0 && document.getElementsByClassName("mobile-clean-card w-full transform origin-center transition-transform active:scale-[0.98] MobileCleanCard_card__6YGZv mb-2 p-2 pl-4 pr-4 flex-row items-center cursor-pointer mt-8 ")[0]!==undefined && document.getElementsByClassName("mobile-clean-card w-full transform origin-center transition-transform active:scale-[0.98] MobileCleanCard_card__6YGZv mb-2 p-2 pl-4 pr-4 flex-row items-center cursor-pointer mt-8 ")[0].textContent === '拿取全部物品'){
 		k -= 1;
 		setTimeout(function(){
@@ -185,7 +185,33 @@ setInterval(function(){
 	else if(document.getElementsByClassName("mobile-clean-card w-full transform origin-center transition-transform active:scale-[0.98] MobileCleanCard_card__6YGZv mb-2 p-2 pl-4 pr-4 flex-row items-center cursor-pointer mt-8 ")[0]===undefined){
 		k = 5;
 	}
-}, 2000);
+}, 2000);*/
+var pickup_detect = function(){
+    setTimeout(function(){
+        if(!!document.getElementsByClassName("mobile-clean-card w-full transform origin-center transition-transform active:scale-[0.98] MobileCleanCard_card__6YGZv mb-2 p-2 pl-4 pr-4 flex-row items-center cursor-pointer mt-8 ")[0] && document.getElementsByClassName("mobile-clean-card w-full transform origin-center transition-transform active:scale-[0.98] MobileCleanCard_card__6YGZv mb-2 p-2 pl-4 pr-4 flex-row items-center cursor-pointer mt-8 ")[0].textContent === '拿取全部物品'){
+            pickup();
+        }
+        else{
+            k = Math.min(k + 1, 5);
+            pickup_detect();
+        }
+    },2000);
+}
+var pickup = function(){
+    setTimeout(function(){
+        if(!!document.getElementsByClassName("mobile-clean-card w-full transform origin-center transition-transform active:scale-[0.98] MobileCleanCard_card__6YGZv mb-2 p-2 pl-4 pr-4 flex-row items-center cursor-pointer mt-8 ")[0] && document.getElementsByClassName("mobile-clean-card w-full transform origin-center transition-transform active:scale-[0.98] MobileCleanCard_card__6YGZv mb-2 p-2 pl-4 pr-4 flex-row items-center cursor-pointer mt-8 ")[0].textContent === '拿取全部物品'){
+            if(k > 0){
+				clickElement(document.getElementsByClassName("loading-background-front absolute top-0 left-0 w-full h-full bg-center bg-cover z-[-1] pointer-events-none")[0]);
+				pickup();
+				k = Math.max(k - 1, 0);
+			}
+        }
+        else{
+            pickup_detect();
+        }
+    },900+Math.floor((Math.random()*200)+1));
+}
+pickup_detect();
 //刷新
 setInterval(function(){
 	var t=document.getElementsByClassName("relative ion-activatable cursor-pointer mt-2 flex flex-row items-center border border-primary-dark flex-grow-0 pl-4 pr-4 p-1")[0];
