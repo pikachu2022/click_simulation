@@ -71,7 +71,8 @@ else{
 	document.querySelector('#mining').style.borderRight='';
 	document.querySelector('#mining').style.borderLeft='50px solid green';
 	document.querySelector("#mining").innerText='開啟';
-}if(localStorage.getItem('d')=='0'){
+}
+if(localStorage.getItem('d')=='0'){
 	document.querySelector('#ai').style.borderRight='50px solid red';
 	document.querySelector('#ai').style.borderLeft='';
 	document.querySelector("#ai").innerText='關閉';
@@ -81,8 +82,19 @@ else{
 	document.querySelector('#ai').style.borderLeft='50px solid green';
 	document.querySelector("#ai").innerText='開啟';
 }
+if(localStorage.getItem('e')=='0'){
+	document.querySelector('#scavenge').style.borderRight='50px solid red';
+	document.querySelector('#scavenge').style.borderLeft='';
+	document.querySelector("#scavenge").innerText='關閉';
+}
+else{
+	document.querySelector('#scavenge').style.borderRight='';
+	document.querySelector('#scavenge').style.borderLeft='50px solid green';
+	document.querySelector("#scavenge").innerText='開啟';
+}
 document.getElementById('valuebar').value = localStorage.getItem('b');
 document.getElementById('valuebar1').value = localStorage.getItem('b');
+document.getElementById('scavenge_value').value = localStorage.getItem('f');
 for(var i of document.getElementsByTagName('span')){
 	i.style.font='bold 18px sans-serif';
 }
@@ -91,18 +103,47 @@ for(var i of document.getElementsByTagName('button')){
 }
 document.getElementById('ai').addEventListener('click',function(){
 	if(localStorage.getItem('d')=='1'){
-		document.querySelector('#ai').style.borderRight='50px solid red';
-		document.querySelector('#ai').style.borderLeft='';
-		document.querySelector("#ai").innerText='關閉';
+		this.style.borderRight='50px solid red';
+		this.style.borderLeft='';
+		this.innerText='關閉';
 		localStorage.setItem("d", "0");
 	}
 	else{
-		document.querySelector('#ai').style.borderRight='';
-		document.querySelector('#ai').style.borderLeft='50px solid green';
-		document.querySelector("#ai").innerText='開啟';
+		this.style.borderRight='';
+		this.style.borderLeft='50px solid green';
+		this.innerText='開啟';
 		localStorage.setItem("d", "1");
 	}
 	info.ai = localStorage.getItem('d');
+	// 获取具有指定属性的所有标签页，active: true 标签页在窗口中是否为活动标签页；currentWindow 标签页是否在当前窗口中。
+	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+		// 取出当前标签页的 tag_id, 发送一个消息出去, 同时带上回调函数
+		chrome.tabs.sendMessage(tabs[0].id, info, function (response) {
+			// 回调函数(传回的信息)
+			if (response.result) {
+				// 关闭 popup.html 页面
+				//window.close();
+				console.log(response.result);
+			} else {
+				console.log(response.note);
+			}
+		});
+	});
+});
+document.getElementById('scavenge').addEventListener('click',function(){
+	if(localStorage.getItem('e')=='1'){
+		this.style.borderRight='50px solid red';
+		this.style.borderLeft='';
+		this.innerText='關閉';
+		localStorage.setItem("e", "0");
+	}
+	else{
+		this.style.borderRight='';
+		this.style.borderLeft='50px solid green';
+		this.innerText='開啟';
+		localStorage.setItem("e", "1");
+	}
+	info.scavenge = localStorage.getItem('e');
 	// 获取具有指定属性的所有标签页，active: true 标签页在窗口中是否为活动标签页；currentWindow 标签页是否在当前窗口中。
 	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 		// 取出当前标签页的 tag_id, 发送一个消息出去, 同时带上回调函数
@@ -165,7 +206,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 		}
 	});
 });
-var info = {action:"info",fight:localStorage.getItem('a'), recure:localStorage.getItem('b'), mining:localStorage.getItem('c'), ai:localStorage.getItem('d')};
+var info = {action:"info",fight:localStorage.getItem('a'), recure:localStorage.getItem('b'), mining:localStorage.getItem('c'), ai:localStorage.getItem('d'), scavenge:localStorage.getItem('e'), scavenge_value:localStorage.getItem('f')};
 document.getElementById('valuebar').addEventListener('input',function(){//拉條
 	document.getElementById('valuebar1').value=this.value;
 	localStorage.setItem("b", this.value);
@@ -200,6 +241,34 @@ document.getElementById('valuebar1').addEventListener('focusout',function(){//�
 	document.getElementById('valuebar1').value = c;
 	localStorage.setItem("b", document.getElementById('valuebar').value);
 	info.recure=localStorage.getItem('b');
+	// 获取具有指定属性的所有标签页，active: true 标签页在窗口中是否为活动标签页；currentWindow 标签页是否在当前窗口中。
+	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+		// 取出当前标签页的 tag_id, 发送一个消息出去, 同时带上回调函数
+		chrome.tabs.sendMessage(tabs[0].id, info, function (response) {
+			// 回调函数(传回的信息)
+			if (response.result) {
+				// 关闭 popup.html 页面
+				//window.close();
+				console.log(response.result);
+			} else {
+				console.log(response.note);
+			}
+		});
+	});
+});
+document.getElementById('scavenge_value').addEventListener('focusout',function(){//箱輸入失焦
+	console.log('unfocus');
+	/*var c = this.value;
+	if(c=='') c=0;
+	c = parseFloat(c);
+	c = Math.max(c,0);
+	c = Math.min(c,100);
+	c = Number.isNaN(c) ? 0 : c;
+	console.log(isNaN(c));
+	document.getElementById('valuebar').value = c;*/
+	document.getElementById('scavenge_value').value = this.value;
+	localStorage.setItem("f", document.getElementById('scavenge_value').value);
+	info.scavenge_value=localStorage.getItem('f');
 	// 获取具有指定属性的所有标签页，active: true 标签页在窗口中是否为活动标签页；currentWindow 标签页是否在当前窗口中。
 	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 		// 取出当前标签页的 tag_id, 发送一个消息出去, 同时带上回调函数

@@ -223,6 +223,19 @@ var k1 = function(){
 	}, 1000);
 }
 k1();
+//輸入數值
+var input_value = function(x){
+	if(document.getElementsByClassName("z-10 w-16 pl-2 text-sm bg-highlight-bright")[0]!=null && document.getElementsByClassName("z-10 w-16 pl-2 text-sm bg-highlight-bright")[0].value != parseInt(x)){
+		//clickElement(document.getElementsByClassName("z-10 w-16 pl-2 text-sm bg-highlight-bright")[0]);
+		//document.getElementsByClassName("z-10 w-16 pl-2 text-sm bg-highlight-bright")[0].value = parseInt(x);
+		//clickElement(document.getElementsByClassName("z-10 w-16 pl-2 text-sm bg-highlight-bright")[0]);
+		setTimeout(function(){
+			document.getElementsByClassName("z-10 w-16 pl-2 text-sm bg-highlight-bright")[0].value = parseInt(x);
+			clickElement(document.getElementsByClassName("z-10 w-16 pl-2 text-sm bg-highlight-bright")[0]);
+		},1000);
+	}
+}
+//掛機
 setInterval(function(){
 			//ai
 			if(person.ai=='1'){
@@ -241,6 +254,30 @@ setInterval(function(){
 							clickElement(p[p.length-1]);
 						},400+Math.floor((Math.random()*200)+1));
 					},400+Math.floor((Math.random()*200)+1));
+				}
+			}
+			//scavenge
+			if(person.scavenge=='1'){
+				if(document.getElementsByClassName("relative ion-activatable cursor-pointer clickable mb-2")[1]!==undefined && /搜索物資/.test(document.getElementsByClassName("relative ion-activatable cursor-pointer clickable mb-2")[1].textContent)){			
+					var img=document.getElementsByClassName("display-font font-bold text-left w-full mt-1 bg-primary text-black-darker text-sm uppercase pl-2 pr-2")[0];
+					if(img==undefined||!(/將所有進度圖示拖入框框內以啟動任務。/.test(img.textContent)))
+					if(window.location.href=='https://cybercodeonline.com/tabs/map')
+					setTimeout(function(){
+						//const rect = document.getElementsByClassName("relative ion-activatable cursor-pointer clickable mb-2")[0].getBoundingClientRect();
+						clickElement(document.getElementsByClassName("relative ion-activatable cursor-pointer clickable mb-2")[1]);
+						/*setTimeout(function(){
+							location.reload();
+						},10*60*1e+3);*/
+						setTimeout(function(){
+							var p=document.getElementsByClassName("mobile-clean-card w-full transform origin-center transition-transform active:scale-[0.98] MobileCleanCard_card__6YGZv mb-2 p-2 pl-4 pr-4 flex-row items-center cursor-pointer ");
+							//const rect = p[p.length-1].getBoundingClientRect();
+							input_value(person.scavenge_value);
+							setTimeout(function(){
+								clickElement(p[p.length-1]);
+								//clickElement(document.getElementsByClassName("z-10 w-16 pl-2 text-sm bg-highlight-bright")[0]);
+							},2000+Math.floor((Math.random()*200)+1));//確認時間>輸入數值
+						},500+Math.floor((Math.random()*200)+1));//輸入數值
+					},100+Math.floor((Math.random()*200)+1));//跳轉頁面
 				}
 			}
 			//hash
@@ -268,7 +305,7 @@ setInterval(function(){
 					clickElement(document.getElementsByClassName("relative ion-activatable cursor-pointer clickable mb-2")[4]);
 				}
 			}
-}, 1300);
+}, 3200);
 var err4 = 0;
 function setCookie(cname, cvalue, exdays) {
   const d = new Date();
@@ -296,6 +333,8 @@ var person = {
 	recure:localStorage.getItem('b'),
 	ai:localStorage.getItem('c'),
 	mining:localStorage.getItem('d'),
+	scavenge:localStorage.getItem('e'),
+	scavenge_value:localStorage.getItem('f'),
 };
 /*
 alert(
@@ -327,10 +366,14 @@ chrome.runtime.onMessage.addListener(
 	        window.recure = request.recure;
 	        window.ai = request.ai;
 	        window.mining = request.mining;
+			window.scavenge = request.scavenge;
+	        window.scavenge_value = request.scavenge_value;
 			localStorage.setItem("a", window.fight);
 			localStorage.setItem("b", window.recure);
 			localStorage.setItem("c", window.ai);
 			localStorage.setItem("d", window.mining);
+			localStorage.setItem("e", window.scavenge);
+			localStorage.setItem("f", window.scavenge_value);
 	        switch (window.fight) {
 	            case '000001':
 					//localStorage.setItem("a", "1");
